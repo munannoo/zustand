@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import useTicTacToeStore from "../store/tictactoe-store";
 import "./tictactoe.css";
 
 export default function TicTacToe() {
-  const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
-  const [winner, setWinner] = useState(null);
+  const { board, setBoard, player, setPlayer, winner, setWinner, resetGame } =
+    useTicTacToeStore();
 
   const winningCombinations = [
     [0, 1, 2],
@@ -18,10 +18,6 @@ export default function TicTacToe() {
     [2, 4, 6],
   ];
 
-  let cellNo, value;
-
-  const [player, setPlayer] = useState("O");
-
   function checkWin(board) {
     for (const combination of winningCombinations) {
       const [a, b, c] = combination;
@@ -30,14 +26,6 @@ export default function TicTacToe() {
           setWinner(board[a]);
         }
       }
-    }
-  }
-
-  function changePlayer() {
-    if (player === "O") {
-      setPlayer("X");
-    } else {
-      setPlayer("O");
     }
   }
 
@@ -62,15 +50,9 @@ export default function TicTacToe() {
       let newBoard = [...board];
       newBoard[cellNo - 1] = player;
       setBoard(newBoard);
-      changePlayer();
+      setPlayer();
       checkWin(newBoard);
     }
-  }
-
-  function handleReset() {
-    setBoard(["", "", "", "", "", "", "", "", ""]);
-    setWinner(null);
-    setPlayer("O");
   }
 
   return (
@@ -78,12 +60,7 @@ export default function TicTacToe() {
       <h3>{winner ? `${winner} wins! 🎉` : `${player}'s turn`}</h3>
 
       {winner ? (
-        <button
-          onClick={() => {
-            handleReset();
-          }}
-          className="resetBtn"
-        >
+        <button onClick={resetGame} className="resetBtn">
           Reset
         </button>
       ) : null}
