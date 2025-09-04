@@ -2,32 +2,16 @@ import useTicTacToeStore from "../store/tictactoe-store";
 import "./tictactoe.css";
 
 export default function TicTacToe() {
-  const { board, setBoard, player, setPlayer, winner, setWinner, resetGame } =
-    useTicTacToeStore();
-
-  const winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  function checkWin(board) {
-    for (const combination of winningCombinations) {
-      const [a, b, c] = combination;
-      if (board[a] && board[b] && board[c]) {
-        if (board[a] === board[b] && board[b] === board[c]) {
-          setWinner(board[a]);
-        }
-      }
-    }
-  }
+  const {
+    board,
+    setBoard,
+    player,
+    setPlayer,
+    winner,
+    setWinner,
+    resetGame,
+    checkWinner,
+  } = useTicTacToeStore();
 
   function Square({ cellNo, value }) {
     return (
@@ -51,7 +35,7 @@ export default function TicTacToe() {
       newBoard[cellNo - 1] = player;
       setBoard(newBoard);
       setPlayer();
-      checkWin(newBoard);
+      checkWinner(newBoard);
     }
   }
 
