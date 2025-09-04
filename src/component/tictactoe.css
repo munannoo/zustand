@@ -1,0 +1,34 @@
+.board {
+  border: whitesmoke 2px solid;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 300px;
+  height: 300px;
+}
+
+.row {
+  display: flex;
+}
+
+.cell:not(:last-child) {
+  border-right: whitesmoke 2px solid;
+}
+
+.r1,
+.r2 {
+  border-bottom: whitesmoke 2px solid;
+}
+
+.cellBtn {
+  width: 100%;
+  height: 100%;
+  border-radius: 0%;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.cellBtn:disabled {
+  background-color: none;
+  color: none;
+}
