@@ -3,9 +3,35 @@ import "./tictactoe.css";
 
 export default function TicTacToe() {
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
+  const [winner, setWinner] = useState(null);
+
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
   let cellNo, value;
 
   const [player, setPlayer] = useState("O");
+
+  function checkWin(board) {
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (board[a] && board[b] && board[c]) {
+        if (board[a] === board[b] && board[b] === board[c]) {
+          setWinner(board[a]);
+        }
+      }
+    }
+  }
 
   function changePlayer() {
     if (player === "O") {
@@ -19,7 +45,7 @@ export default function TicTacToe() {
     return (
       <button
         className="cellBtn cell"
-        // disabled={value !== ""}
+        disabled={winner ? true : false}
         onClick={() => handleSquareClick({ cellNo })}
       >
         {value}
@@ -32,16 +58,36 @@ export default function TicTacToe() {
     if (board[cellNo - 1] !== "") {
       return;
     } else {
+      if (winner) return;
       let newBoard = [...board];
       newBoard[cellNo - 1] = player;
       setBoard(newBoard);
       changePlayer();
+      checkWin(newBoard);
     }
+  }
+
+  function handleReset() {
+    setBoard(["", "", "", "", "", "", "", "", ""]);
+    setWinner(null);
+    setPlayer("O");
   }
 
   return (
     <div>
-      <h3>{player}'s turn</h3>
+      <h3>{winner ? `${winner} wins! 🎉` : `${player}'s turn`}</h3>
+
+      {winner ? (
+        <button
+          onClick={() => {
+            handleReset();
+          }}
+          className="resetBtn"
+        >
+          Reset
+        </button>
+      ) : null}
+
       <div className="board">
         <div className="row r1">
           <Square cellNo={1} value={board[0]} />
