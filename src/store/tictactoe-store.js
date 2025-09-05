@@ -2,14 +2,7 @@ import { create } from "zustand";
 
 const useTicTacToeStore = create((set, get) => ({
   board: ["", "", "", "", "", "", "", "", ""],
-  setBoard: (newBoard) => set({ board: newBoard }),
-
   player: "O",
-  setPlayer: () =>
-    set((state) => ({
-      player: `${state.player === "O" ? "X" : "O"}`,
-    })),
-
   winningCombinations: [
     [0, 1, 2],
     [3, 4, 5],
@@ -26,6 +19,7 @@ const useTicTacToeStore = create((set, get) => ({
   checkWinner: (newBoard) => {
     const state = get();
     let foundWinner = null;
+
     for (const combination of state.winningCombinations) {
       const [a, b, c] = combination;
       if (newBoard[a] && newBoard[b] && newBoard[c]) {
@@ -37,6 +31,8 @@ const useTicTacToeStore = create((set, get) => ({
 
     if (foundWinner) {
       set({ winner: foundWinner });
+    } else if (newBoard.every((cell) => cell !== "")) {
+      set({ winner: "draw" });
     } else {
       set({ winner: null });
     }
@@ -48,6 +44,24 @@ const useTicTacToeStore = create((set, get) => ({
       player: "O",
       winner: null,
     }),
+
+  makemove: (cellNo) => {
+    const { checkWinner, board, winner, player } = get();
+
+    if (board[cellNo - 1] !== "" || winner) {
+      return;
+    } else {
+      let newBoard = [...board];
+      newBoard[cellNo - 1] = player;
+
+      set(() => ({
+        board: newBoard,
+        player: player === "O" ? "X" : "O",
+      }));
+
+      checkWinner(newBoard);
+    }
+  },
 }));
 
 export default useTicTacToeStore;

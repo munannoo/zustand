@@ -2,46 +2,29 @@ import useTicTacToeStore from "../store/tictactoe-store";
 import "./tictactoe.css";
 
 export default function TicTacToe() {
-  const {
-    board,
-    setBoard,
-    player,
-    setPlayer,
-    winner,
-    setWinner,
-    resetGame,
-    checkWinner,
-  } = useTicTacToeStore();
+  const { board, player, winner, resetGame, makemove } = useTicTacToeStore();
 
   function Square({ cellNo, value }) {
     return (
       <button
         className="cellBtn cell"
         disabled={winner ? true : false}
-        onClick={() => handleSquareClick({ cellNo })}
+        onClick={() => makemove(cellNo)}
       >
         {value}
       </button>
     );
   }
 
-  function handleSquareClick({ cellNo }) {
-    console.log(cellNo, board, player);
-    if (board[cellNo - 1] !== "") {
-      return;
-    } else {
-      if (winner) return;
-      let newBoard = [...board];
-      newBoard[cellNo - 1] = player;
-      setBoard(newBoard);
-      setPlayer();
-      checkWinner(newBoard);
-    }
-  }
-
   return (
     <div>
-      <h3>{winner ? `${winner} wins! 🎉` : `${player}'s turn`}</h3>
+      <h3>
+        {winner && winner !== "draw"
+          ? `${winner} wins! 🎉`
+          : winner == "draw"
+          ? "It's a draw!"
+          : `${player}'s turn`}
+      </h3>
 
       {winner ? (
         <button onClick={resetGame} className="resetBtn">
