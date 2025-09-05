@@ -1,12 +1,39 @@
-# React + Vite
+# Tic-Tac-Toe with Zustand
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple tic-tac-toe game built to learn Zustand state management in React.
 
-Currently, two official plugins are available:
+## What I Learned
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Zustand basics**: Creating stores with `create()`
+- **State management**: Moving from `useState` to global state
+- **Actions**: Creating functions that update state
+- **Store organization**: Keeping game logic in the store, UI logic in components
+- **Best practices**:
+  - Thin components, fat stores
+  - Single actions for complex operations (`makeMove`)
+  - Proper state immutability
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ✅ Classic 3x3 tic-tac-toe gameplay
+- ✅ Win detection (rows, columns, diagonals)
+- ✅ Draw/tie detection
+- ✅ Game reset functionality
+- ✅ All game logic managed by Zustand store
+
+## Project Structure
+
+```
+src/
+├── components/
+│   └── tictactoe.jsx        # UI component (presentational)
+└── store/
+    └── tictactoe-store.js   # Zustand store (game logic)
+```
+
+## Run the Project
+
+```bash
+npm install
+npm run dev
+```
